@@ -21,14 +21,13 @@ export const lendingStatsTool = {
 				const stats = await lendingStatsService.getStats();
 	
 				return lendingStatsService.formatStats(stats);
-			} catch (error) {
-				return`
-					❌ Failed to Fetch Lending Statistics
-
-					Error: ${error.message}
-
-					Please try again later.
-				`;
+			} catch (error: unknown) {
+				const message =
+					error instanceof Error
+						? error.message
+						: "An unknown error occurred during the fetch.";
+				console.error(`❌  [FRAXLEND_GET_STATS] Error: ${message}`);
+				throw new Error(`❌ Failed to Fetch Lending Statistics: ${message}`);
 			}
 		},
 }

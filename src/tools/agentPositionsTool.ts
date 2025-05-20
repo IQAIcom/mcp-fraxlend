@@ -36,14 +36,13 @@ export const agentPositionsTool = {
 			const positions = await agentPositionsService.getPositions();
 
 			return agentPositionsService.formatPositions(positions);
-		} catch (error) {
-			return `
-					❌ Failed to Fetch Positions
-
-					Error: ${error.message}
-
-					Please try again later.
-				`;
+		} catch (error: unknown) {
+			const message =
+				error instanceof Error
+					? error.message
+					: "An unknown error occurred during the fetch.";
+			console.error(`❌  [FRAXLEND_GET_POSITIONS] Error: ${message}`);
+			throw new Error(`❌ Failed to Fetch Positions ${message}`);
 		}
 	},
 }
