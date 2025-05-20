@@ -15,6 +15,15 @@ export class RemoveCollateralService {
 	}: { pairAddress: Address; amount: bigint }) {
 		const publicClient = this.walletService.getPublicClient();
 		const walletClient = this.walletService.getWalletClient();
+
+		if (!walletClient) {
+			throw new Error("Wallet client not initialized");
+		}
+
+		if (!walletClient.account) {
+			throw new Error("Wallet account not initialized");
+		}
+
 		const userAddress = walletClient.account.address;
 
 		const collateralBalance = await publicClient.readContract({

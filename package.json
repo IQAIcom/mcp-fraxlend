@@ -37,15 +37,17 @@
     "url": "https://github.com/IQAIcom/mcp-fraxlend/issues"
   },
   "devDependencies": {
-    "@types/express": "^5.0.1",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   },
   "homepage": "https://github.com/IQAIcom/mcp-fraxlend#readme",
   "dependencies": {
+    "@types/node": "^22.15.19",
+    "@biomejs/biome": "*",
     "dedent": "^1.6.0",
     "fastmcp": "^1.27.7",
     "gql.tada": "^1.8.10",
+    "graphql-request": "^7.1.2",
     "viem": "^2.29.2",
     "zod": "^3.25.1"
   }

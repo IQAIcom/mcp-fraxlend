@@ -41,7 +41,9 @@ export class LendingStatsService {
 				decimals: pair.asset.decimals,
 			}));
 		} catch (error) {
-			throw new Error(`Failed to fetch lending stats: ${error.message}`);
+			throw new Error(
+				`Failed to fetch lending stats: ${(error as Error).message}`,
+			);
 		}
 	}
 

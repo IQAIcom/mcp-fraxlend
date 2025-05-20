@@ -22,7 +22,16 @@ export class BorrowService {
 	}) {
 		const publicClient = this.walletService.getPublicClient();
 		const walletClient = this.walletService.getWalletClient();
-		const userAddress = walletClient.account.address;
+
+		if (!walletClient) {
+			throw new Error("Wallet client not initialized");
+		}
+
+		const userAddress = walletClient.account?.address;
+
+		if (!userAddress) {
+			throw new Error("User address not found");
+		}
 
 		const collateralBalance = (await publicClient.readContract({
 			address: pairAddress,

@@ -44,7 +44,17 @@ export class AgentPositionsService {
 
 	async getPositions() {
 		const walletClient = this.walletService.getWalletClient();
-		const userAddress = walletClient.account.address;
+
+		if (!walletClient) {
+			throw new Error("Wallet client not initialized");
+		}
+
+		const userAddress = walletClient.account?.address;
+
+		if (!userAddress) {
+			throw new Error("User address not found");
+		}
+
 		try {
 			const data = await client.request(AGENT_POSITIONS_QUERY, {
 				user: {
@@ -69,7 +79,9 @@ export class AgentPositionsService {
 				})) || []
 			);
 		} catch (error) {
-			throw new Error(`Failed to fetch agent positions: ${error.message}`);
+			throw new Error(
+				`Failed to fetch agent positions: ${(error as Error).message}`,
+			);
 		}
 	}
 

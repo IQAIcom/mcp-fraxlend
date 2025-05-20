@@ -89,7 +89,9 @@ export class PairAddressService {
 
 			return pairs;
 		} catch (error) {
-			throw new Error(`Failed to fetch pair address: ${error.message}`);
+			throw new Error(
+				`Failed to fetch pair address: ${(error as Error).message}`,
+			);
 		}
 	}
 
