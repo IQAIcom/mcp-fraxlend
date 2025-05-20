@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { PairAddressService } from "../services/pair-address"
 import { WalletService } from "../services/wallet";
+import type { Chain } from "viem";
 
 
 const pairAddressParamsSchema = z.object({
@@ -16,6 +17,10 @@ const pairAddressParamsSchema = z.object({
 		.enum(["highest", "lowest"])
 		.optional()
 		.describe("Sort the results by APR, either highest or lowest."),
+	chain: z
+		.string()
+		.optional()
+		.describe("The blockchain network to execute the transaction on."),
 });
 
 export const pairAddressTool = {
@@ -42,12 +47,11 @@ export const pairAddressTool = {
 				);
 			}
 
-			const walletService = new WalletService(walletPrivateKey);
-			
-			// const walletService = new WalletService(
-			// 	walletPrivateKey,
-			// 	chain: chain as Chain,
-			// );
+			// const walletService = new WalletService(walletPrivateKey);
+			const walletService = new WalletService(
+				walletPrivateKey,
+				args.chain ? (args.chain as unknown as Chain) : undefined
+			  );
 			const pairAddressService = new PairAddressService(walletService);
 
 			const pairs = await pairAddressService.getPairAddress({

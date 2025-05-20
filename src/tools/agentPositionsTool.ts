@@ -1,11 +1,20 @@
 import { z } from "zod";
 import { AgentPositionsService } from "../services/agent-positions"
 import { WalletService } from "../services/wallet";
+import type { Chain } from "viem";
+
+const agentPositionsParamsSchema = z.object({
+	chain: z
+		.string()
+		.optional()
+		.describe("The blockchain network to execute the transaction on."),
+});
 
 export const agentPositionsTool = {
 	name: "FRAXLEND_GET_POSITIONS",
 	description: "Get your positions in FraxLend pools",
-	execute: async () => {
+	parameters: agentPositionsParamsSchema,
+	execute: async (args: z.infer<typeof agentPositionsParamsSchema>) => {
 		const walletPrivateKey = process.env.ATP_WALLET_PRIVATE_KEY;
 		if (!walletPrivateKey) {
 			throw new Error(
@@ -18,12 +27,11 @@ export const agentPositionsTool = {
 		);
 		
 		try {
-			const walletService = new WalletService(walletPrivateKey);
-
-			// const walletService = new WalletService(
-			// 	walletPrivateKey,
-			// 	chain: chain as Chain,
-			// );
+			// const walletService = new WalletService(walletPrivateKey);
+			const walletService = new WalletService(
+				walletPrivateKey,
+				args.chain ? (args.chain as unknown as Chain) : undefined
+			  );
 			const agentPositionsService = new AgentPositionsService(walletService);
 			const positions = await agentPositionsService.getPositions();
 
