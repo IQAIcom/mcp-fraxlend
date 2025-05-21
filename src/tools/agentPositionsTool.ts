@@ -1,7 +1,7 @@
-import { AgentPositionsService } from "../services/agent-positions.js";
-import { WalletService } from "../services/wallet.js";
 import type { Chain } from "viem";
 import { z } from "zod";
+import { AgentPositionsService } from "../services/agent-positions.js";
+import { WalletService } from "../services/wallet.js";
 
 const agentPositionsParamsSchema = z.object({
 	chain: z

@@ -1,8 +1,8 @@
-import { z } from "zod";
-import { WalletService } from "../services/wallet.js";
-import { formatWeiToNumber } from "../lib/format-number.js";
-import { WithdrawService } from "../services/withdraw.js";
 import type { Address, Chain } from "viem";
+import { z } from "zod";
+import { formatWeiToNumber } from "../lib/format-number.js";
+import { WalletService } from "../services/wallet.js";
+import { WithdrawService } from "../services/withdraw.js";
 
 const withdrawParamsSchema = z.object({
 	pairAddress: z

@@ -1,8 +1,8 @@
+import type { Address, Chain } from "viem";
 import { z } from "zod";
-import { WalletService } from "../services/wallet.js";
 import { formatWeiToNumber } from "../lib/format-number.js";
 import { LendService } from "../services/lend.js";
-import type { Address, Chain } from "viem";
+import { WalletService } from "../services/wallet.js";
 
 const lendParamsSchema = z.object({
 	pairAddress: z
