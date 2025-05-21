@@ -1,17 +1,17 @@
 import { z } from "zod";
 import { WalletService } from "../services/wallet";
 import { formatWeiToNumber } from "../lib/format-number";
-import { AddCollateralService } from "../services/add-collateral"
+import { AddCollateralService } from "../services/add-collateral";
 import type { Address } from "viem";
 
 const addCollateralParamsSchema = z.object({
-  pairAddress: z
-    .string()
-    .startsWith("0x", {
+	pairAddress: z
+		.string()
+		.startsWith("0x", {
 			message:
 				"Token contract must be a valid Ethereum address starting with 0x.",
 		})
-    .describe("The contract address of the agent token to sell."),
+		.describe("The contract address of the agent token to sell."),
 	amount: z
 		.string()
 		.regex(/^\d+(\.\d+)?$/, { message: "Amount must be a valid number." })
@@ -20,34 +20,28 @@ const addCollateralParamsSchema = z.object({
 		),
 });
 
-
 export const addCollateralTool = {
 	name: "FRAXLEND_ADD_COLLATERAL",
 	description: "Add collateral to a FraxLend position",
-  	parameters: addCollateralParamsSchema,
+	parameters: addCollateralParamsSchema,
 	execute: async (args: z.infer<typeof addCollateralParamsSchema>) => {
-
-    const walletPrivateKey = process.env.WALLET_PRIVATE_KEY;
+		const walletPrivateKey = process.env.WALLET_PRIVATE_KEY;
 		if (!walletPrivateKey) {
 			throw new Error(
 				"WALLET_PRIVATE_KEY is not set in the environment. This is required to execute trades.",
 			);
 		}
 
-    console.log(
+		console.log(
 			`[FRAXLEND_ADD_COLLATERAL] Called with token ${args.pairAddress}, amount: ${args.amount}`,
 		);
 
-    try {
-      		const walletService = new WalletService(walletPrivateKey);
-			// const walletService = new WalletService(
-			// 	walletPrivateKey,
-			// 	chain: chain as Chain,
-			// );
+		try {
+			const walletService = new WalletService(walletPrivateKey);
 			const addCollateralService = new AddCollateralService(walletService);
 
 			const result = await addCollateralService.execute({
-        		pairAddress: args.pairAddress as Address,
+				pairAddress: args.pairAddress as Address,
 				amount: BigInt(args.amount),
 			});
 
@@ -59,18 +53,13 @@ export const addCollateralTool = {
 
 					Collateral has been added to your FraxLend position.
 				`;
-
 		} catch (error: unknown) {
 			const message =
 				error instanceof Error
 					? error.message
 					: "An unknown error occurred during the transaction.";
-			console.error(`[FRAXLEND_ADD_COLLATERAL] Error: ${message}`);
+			console.log(`[FRAXLEND_ADD_COLLATERAL] Error: ${message}`);
 			throw new Error(`Failed to add collateral: ${message}`);
 		}
-
-
-  }
-  
-
-}
+	},
+};

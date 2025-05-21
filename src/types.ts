@@ -6,9 +6,13 @@ export interface FraxLendActionParams {
 }
 
 export type Tool = {
-  (params: { amount: string; asset: string; model: string } | { model: string }): Promise<string>;
-  description: string;
-  parameters: string[];
-  name: string;
-  similes: string[];
+	(
+		params:
+			| { amount: string; asset: string; model: string }
+			| { model: string },
+	): Promise<string>;
+	description: string;
+	parameters: string[];
+	name: string;
+	similes: string[];
 };

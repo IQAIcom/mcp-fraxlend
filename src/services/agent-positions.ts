@@ -43,6 +43,7 @@ export class AgentPositionsService {
 	}
 
 	async getPositions() {
+		console.log("[FRAXLEND_GET_POSITIONS] Called to fetch agent positions");
 		const walletClient = this.walletService.getWalletClient();
 
 		if (!walletClient) {

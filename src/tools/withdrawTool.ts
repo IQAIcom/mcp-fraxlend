@@ -1,17 +1,17 @@
 import { z } from "zod";
 import { WalletService } from "../services/wallet";
 import { formatWeiToNumber } from "../lib/format-number";
-import { WithdrawService } from "../services/withdraw"
+import { WithdrawService } from "../services/withdraw";
 import type { Address } from "viem";
 
 const withdrawParamsSchema = z.object({
-  pairAddress: z
-	.string()
-	.startsWith("0x", {
+	pairAddress: z
+		.string()
+		.startsWith("0x", {
 			message:
 				"Token contract must be a valid Ethereum address starting with 0x.",
 		})
-	.describe("The contract address of the agent token to sell."),
+		.describe("The contract address of the agent token to sell."),
 	amount: z
 		.string()
 		.regex(/^\d+(\.\d+)?$/, { message: "Amount must be a valid number." })
@@ -24,33 +24,32 @@ export const withdrawTool = {
 	name: "FRAXLEND_WITHDRAW",
 	description: "Withdraw assets from a FraxLend pool",
 	parameters: withdrawParamsSchema,
-		execute: async (args: z.infer<typeof withdrawParamsSchema>) => {
-	
+	execute: async (args: z.infer<typeof withdrawParamsSchema>) => {
 		const walletPrivateKey = process.env.WALLET_PRIVATE_KEY;
-			if (!walletPrivateKey) {
-				throw new Error(
-					"WALLET_PRIVATE_KEY is not set in the environment. This is required to execute trades.",
-				);
-			}
-	
-		console.log(
-				`[FRAXLEND_WITHDRAW] Called with token ${args.pairAddress}, amount: ${args.amount}`,
+		if (!walletPrivateKey) {
+			throw new Error(
+				"WALLET_PRIVATE_KEY is not set in the environment. This is required to execute trades.",
 			);
-	
+		}
+
+		console.log(
+			`[FRAXLEND_WITHDRAW] Called with token ${args.pairAddress}, amount: ${args.amount}`,
+		);
+
 		try {
-				const walletService = new WalletService(walletPrivateKey);
-				// const walletService = new WalletService(
-				// 	walletPrivateKey,
-				// 	chain: chain as Chain,
-				// );
-				const withdrawService = new WithdrawService(walletService);
-	
-				const result = await withdrawService.execute({
-					pairAddress: args.pairAddress as Address,
-					amount: BigInt(args.amount),
-				});
-	
-				return `
+			const walletService = new WalletService(walletPrivateKey);
+			// const walletService = new WalletService(
+			// 	walletPrivateKey,
+			// 	chain: chain as Chain,
+			// );
+			const withdrawService = new WithdrawService(walletService);
+
+			const result = await withdrawService.execute({
+				pairAddress: args.pairAddress as Address,
+				amount: BigInt(args.amount),
+			});
+
+			return `
 						✅ Withdrawal Transaction Successful
 	
 						🔒 Amount: ${formatWeiToNumber(args.amount)} tokens
@@ -58,16 +57,13 @@ export const withdrawTool = {
 	
 						Your assets have been withdrawn from the FraxLend pool.
 					`;
-	
-			} catch (error: unknown) {
-				const message =
-					error instanceof Error
-						? error.message
-						: "An unknown error occurred during the transaction.";
-				console.error(`[FRAXLEND_WITHDRAW] Error: ${message}`);
-				throw new Error(`Failed to add collateral: ${message}`);
-			}
-	
-	
-	  }
-}
+		} catch (error: unknown) {
+			const message =
+				error instanceof Error
+					? error.message
+					: "An unknown error occurred during the transaction.";
+			console.log(`[FRAXLEND_WITHDRAW] Error: ${message}`);
+			throw new Error(`Failed to withdraw: ${message}`);
+		}
+	},
+};

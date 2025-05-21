@@ -16,17 +16,17 @@ async function main() {
 		name: "IQAI Fraxlend MCP Server",
 		version: "0.0.1",
 	});
-	
-  server.addTool(addCollateralTool);
-  server.addTool(agentPositionsTool);
-  server.addTool(borrowTool);
-  server.addTool(lendingStatsTool);
-  server.addTool(lendTool);
-  server.addTool(pairAddressTool);
-  server.addTool(removeCollateralTool);
-  server.addTool(repayTool);
-  server.addTool(withdrawTool);
-  
+
+	server.addTool(addCollateralTool);
+	server.addTool(agentPositionsTool);
+	server.addTool(borrowTool);
+	server.addTool(lendingStatsTool);
+	server.addTool(lendTool);
+	server.addTool(pairAddressTool);
+	server.addTool(removeCollateralTool);
+	server.addTool(repayTool);
+	server.addTool(withdrawTool);
+
 	try {
 		await server.start({
 			transportType: "stdio",

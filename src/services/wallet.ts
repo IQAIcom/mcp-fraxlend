@@ -14,6 +14,10 @@ export class WalletService {
 	private walletClient?: WalletClient;
 
 	constructor(privateKey?: string, chain: Chain = fraxtal) {
+		console.log(
+			"[WALLET_SERVICE] Initializing wallet service with private key: ",
+			privateKey,
+		);
 		this.publicClient = createPublicClient({
 			chain,
 			transport: http(),

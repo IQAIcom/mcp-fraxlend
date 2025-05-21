@@ -1,17 +1,17 @@
 import { z } from "zod";
-import { BorrowService } from "../services/borrow"
+import { BorrowService } from "../services/borrow";
 import { WalletService } from "../services/wallet";
 import { formatWeiToNumber } from "../lib/format-number";
 import type { Address } from "viem";
 
 const borrowParamsSchema = z.object({
-  pairAddress: z
-	.string()
-	.startsWith("0x", {
+	pairAddress: z
+		.string()
+		.startsWith("0x", {
 			message:
 				"Token contract must be a valid Ethereum address starting with 0x.",
 		})
-	.describe("The contract address of the agent token to sell."),
+		.describe("The contract address of the agent token to sell."),
 	receiver: z
 		.string()
 		.startsWith("0x", {
@@ -38,7 +38,6 @@ export const borrowTool = {
 	description: "Borrow assets from a FraxLend pool",
 	parameters: borrowParamsSchema,
 	execute: async (args: z.infer<typeof borrowParamsSchema>) => {
-
 		const walletPrivateKey = process.env.WALLET_PRIVATE_KEY;
 		if (!walletPrivateKey) {
 			throw new Error(
@@ -46,7 +45,7 @@ export const borrowTool = {
 			);
 		}
 
-    	console.log(
+		console.log(
 			`[FRAXLEND_BORROW] Called with token ${args.pairAddress}, amount: ${args.borrowAmount}, receiver: ${args.receiver}`,
 		);
 
@@ -57,7 +56,7 @@ export const borrowTool = {
 			// 	opts.chain,
 			// );
 			const borrowService = new BorrowService(walletService);
-		
+
 			const result = await borrowService.execute({
 				pairAddress: args.pairAddress as Address,
 				borrowAmount: BigInt(args.borrowAmount),
@@ -80,10 +79,8 @@ export const borrowTool = {
 				error instanceof Error
 					? error.message
 					: "An unknown error occurred during the transaction.";
-			console.error(`❌  [FRAXLEND_BORROW] Error: ${message}`);
+			console.log(`❌  [FRAXLEND_BORROW] Error: ${message}`);
 			throw new Error(`Failed to add collateral: ${message}`);
 		}
-	}
-}
-
-
+	},
+};
