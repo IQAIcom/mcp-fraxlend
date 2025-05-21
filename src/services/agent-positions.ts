@@ -43,19 +43,14 @@ export class AgentPositionsService {
 	}
 
 	async getPositions() {
-		console.log("[FRAXLEND_GET_POSITIONS] Called to fetch agent positions");
 		const walletClient = this.walletService.getWalletClient();
-
 		if (!walletClient) {
 			throw new Error("Wallet client not initialized");
 		}
-
 		const userAddress = walletClient.account?.address;
-
 		if (!userAddress) {
 			throw new Error("User address not found");
 		}
-
 		try {
 			const data = await client.request(AGENT_POSITIONS_QUERY, {
 				user: {

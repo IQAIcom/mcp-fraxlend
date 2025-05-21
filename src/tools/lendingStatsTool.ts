@@ -4,14 +4,7 @@ export const lendingStatsTool = {
 	name: "FRAXLEND_GET_STATS",
 	description: "Get lending statistics from FraxLend pools",
 	execute: async () => {
-		const walletPrivateKey = process.env.ATP_WALLET_PRIVATE_KEY;
-		if (!walletPrivateKey) {
-			throw new Error(
-				"FRAXLEND_WALLET_PRIVATE_KEY is not set. Please set it in your environment variables.",
-			);
-		}
-
-		console.log(`[FRAXLEND_GET_STATS] Called to fetch lending statistics`);
+		console.log("[FRAXLEND_GET_STATS] Called to fetch lending statistics");
 
 		try {
 			const lendingStatsService = new LendingStatsService();

@@ -1,6 +1,7 @@
 import { AgentPositionsService } from "../services/agent-positions";
 import { WalletService } from "../services/wallet";
 import type { Chain } from "viem";
+import { z } from "zod";
 
 const agentPositionsParamsSchema = z.object({
 	chain: z
@@ -13,8 +14,12 @@ export const agentPositionsTool = {
 	name: "FRAXLEND_GET_POSITIONS",
 	description: "Get your positions in FraxLend pools",
 	parameters: agentPositionsParamsSchema,
-	execute: async (args: z.infer<typeof agentPositionsParamsSchema>) => {
-		const walletPrivateKey = process.env.ATP_WALLET_PRIVATE_KEY;
+	execute: async (
+		args: z.infer<typeof agentPositionsParamsSchema>,
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		{ log }: { log: any },
+	) => {
+		const walletPrivateKey = process.env.WALLET_PRIVATE_KEY;
 		if (!walletPrivateKey) {
 			throw new Error(
 				"WALLET_PRIVATE_KEY is not set. Please set it in your environment variables.",
@@ -24,7 +29,6 @@ export const agentPositionsTool = {
 		log.debug("[FRAXLEND_GET_POSITIONS] Called to fetch agent positions");
 
 		try {
-			// const walletService = new WalletService(walletPrivateKey);
 			const walletService = new WalletService(
 				walletPrivateKey,
 				args.chain ? (args.chain as unknown as Chain) : undefined,
@@ -38,7 +42,7 @@ export const agentPositionsTool = {
 				error instanceof Error
 					? error.message
 					: "An unknown error occurred during the fetch.";
-			console.error(`❌  [FRAXLEND_GET_POSITIONS] Error: ${message}`);
+			log.error(`❌  [FRAXLEND_GET_POSITIONS] Error: ${message}`);
 			throw new Error(`❌ Failed to Fetch Positions ${message}`);
 		}
 	},
