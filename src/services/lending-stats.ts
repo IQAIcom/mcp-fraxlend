@@ -1,7 +1,7 @@
 import dedent from "dedent";
 import { graphql } from "gql.tada";
 import { formatEther, formatUnits } from "viem";
-import { client } from "../lib/graphql";
+import { client } from "../lib/graphql.js";
 
 const LENDING_PAIRS_QUERY = graphql(`
   query GetLendingPairs {
@@ -28,8 +28,10 @@ const LENDING_PAIRS_QUERY = graphql(`
 export class LendingStatsService {
 	async getStats() {
 		try {
-			const data = await client.request(LENDING_PAIRS_QUERY);
-			return data.pairs.map((pair) => ({
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			const data: any = await client.request(LENDING_PAIRS_QUERY);
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			return data.pairs.map((pair: any) => ({
 				address: pair.id,
 				symbol: pair.symbol,
 				assetSymbol: pair.asset.symbol,
@@ -64,7 +66,8 @@ export class LendingStatsService {
 		}
 
 		const formattedStats = stats
-			.map((pool) => {
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			.map((pool: any) => {
 				const formattedSupply = Number(
 					formatUnits(
 						BigInt(pool.totalSupply as number),

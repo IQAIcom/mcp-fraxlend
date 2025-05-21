@@ -57,8 +57,8 @@ export const borrowTool = {
 			// const walletService = new WalletService(walletPrivateKey);
 			const walletService = new WalletService(
 				walletPrivateKey,
-				args.chain ? (args.chain as unknown as Chain) : undefined
-			  );
+				args.chain ? (args.chain as unknown as Chain) : undefined,
+			);
 			const borrowService = new BorrowService(walletService);
 
 			const result = await borrowService.execute({

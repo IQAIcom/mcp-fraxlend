@@ -48,6 +48,7 @@ export class PairAddressService {
 		sortByApr?: "highest" | "lowest";
 	}) {
 		try {
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 			const where: Record<string, any> = {};
 
 			if (params.assetSymbol) {
@@ -60,9 +61,11 @@ export class PairAddressService {
 				};
 			}
 
-			const data = await client.request(PAIR_ADDRESS_QUERY, { where });
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			const data: any = await client.request(PAIR_ADDRESS_QUERY, { where });
 
-			const pairs = data.pairs.map((pair) => ({
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			const pairs: any = data.pairs.map((pair: any) => ({
 				address: pair.id,
 				symbol: pair.symbol,
 				assetSymbol: pair.asset.symbol,
@@ -82,7 +85,8 @@ export class PairAddressService {
 			}));
 
 			if (params.sortByApr) {
-				pairs.sort((a, b) =>
+				// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+				pairs.sort((a: any, b: any) =>
 					params.sortByApr === "highest" ? b.apr - a.apr : a.apr - b.apr,
 				);
 			}
@@ -110,7 +114,8 @@ export class PairAddressService {
 		}
 
 		const formattedPairs = pairs
-			.map((pair) => {
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			.map((pair: any) => {
 				return dedent`
           🔸 ${pair.symbol}
           - Address: ${pair.address}

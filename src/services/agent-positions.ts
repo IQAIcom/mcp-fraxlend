@@ -52,7 +52,8 @@ export class AgentPositionsService {
 			throw new Error("User address not found");
 		}
 		try {
-			const data = await client.request(AGENT_POSITIONS_QUERY, {
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			const data: any = await client.request(AGENT_POSITIONS_QUERY, {
 				user: {
 					id: userAddress.toLowerCase(),
 				},
@@ -60,7 +61,8 @@ export class AgentPositionsService {
 			const positions = data.users[0].positions;
 
 			return (
-				positions.map((position) => ({
+				// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+				positions.map((position: any) => ({
 					symbol: position.pair.symbol,
 					assetSymbol: position.pair.asset.symbol,
 					collateralSymbol: position.pair.collateral.symbol,
@@ -89,7 +91,8 @@ export class AgentPositionsService {
 		}
 
 		const formattedPositions = positions
-			.map((pos) => {
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			.map((pos: any) => {
 				const lentAmount = formatWeiToNumber(pos.lentAmount);
 				const lentValue = formatWeiToNumber(pos.value);
 				const borrowedAmount = formatWeiToNumber(pos.borrowedAmount);
