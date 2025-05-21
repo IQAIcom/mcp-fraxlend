@@ -1,6 +1,6 @@
 import { type Address, erc20Abi } from "viem";
-import { FRAXLEND_ABI } from "../lib/fraxlend.abi";
-import type { WalletService } from "./wallet";
+import { FRAXLEND_ABI } from "../lib/fraxlend.abi.js";
+import type { WalletService } from "./wallet.js";
 
 export class WithdrawService {
 	private walletService: WalletService;

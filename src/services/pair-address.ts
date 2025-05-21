@@ -1,8 +1,8 @@
 import dedent from "dedent";
 import { graphql } from "gql.tada";
 import { formatEther } from "viem";
-import { client } from "../lib/graphql";
-import type { WalletService } from "./wallet";
+import { client } from "../lib/graphql.js";
+import type { WalletService } from "./wallet.js";
 
 const PAIR_ADDRESS_QUERY = graphql(`
 	query fraxlendPairs($where: Pair_filter) {

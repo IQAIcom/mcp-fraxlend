@@ -1,5 +1,5 @@
-import { AgentPositionsService } from "../services/agent-positions";
-import { WalletService } from "../services/wallet";
+import { AgentPositionsService } from "../services/agent-positions.js";
+import { WalletService } from "../services/wallet.js";
 import type { Chain } from "viem";
 import { z } from "zod";
 

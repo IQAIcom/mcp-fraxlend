@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { BorrowService } from "../services/borrow";
-import { WalletService } from "../services/wallet";
-import { formatWeiToNumber } from "../lib/format-number";
+import { BorrowService } from "../services/borrow.js";
+import { WalletService } from "../services/wallet.js";
+import { formatWeiToNumber } from "../lib/format-number.js";
 import type { Address, Chain } from "viem";
 
 const borrowParamsSchema = z.object({

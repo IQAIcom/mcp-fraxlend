@@ -1,8 +1,8 @@
 import dedent from "dedent";
 import { graphql } from "gql.tada";
-import { formatWeiToNumber } from "../lib/format-number";
-import { client } from "../lib/graphql";
-import type { WalletService } from "./wallet";
+import { formatWeiToNumber } from "../lib/format-number.js";
+import { client } from "../lib/graphql.js";
+import type { WalletService } from "./wallet.js";
 
 const AGENT_POSITIONS_QUERY = graphql(`
   query fraxlendUsers($user: User_filter) {

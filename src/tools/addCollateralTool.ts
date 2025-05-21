@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { WalletService } from "../services/wallet";
-import { formatWeiToNumber } from "../lib/format-number";
-import { AddCollateralService } from "../services/add-collateral";
+import { WalletService } from "../services/wallet.js";
+import { formatWeiToNumber } from "../lib/format-number.js";
+import { AddCollateralService } from "../services/add-collateral.js";
 import type { Address, Chain } from "viem";
 
 const addCollateralParamsSchema = z.object({

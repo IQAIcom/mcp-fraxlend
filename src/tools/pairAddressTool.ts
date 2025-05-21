@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { PairAddressService } from "../services/pair-address";
-import { WalletService } from "../services/wallet";
+import { PairAddressService } from "../services/pair-address.js";
+import { WalletService } from "../services/wallet.js";
 import type { Chain } from "viem";
 
 const pairAddressParamsSchema = z.object({

@@ -1,4 +1,4 @@
-import { LendingStatsService } from "../services/lending-stats";
+import { LendingStatsService } from "../services/lending-stats.js";
 
 export const lendingStatsTool = {
 	name: "FRAXLEND_GET_STATS",
