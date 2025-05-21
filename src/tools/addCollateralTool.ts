@@ -2,7 +2,7 @@ import { z } from "zod";
 import { WalletService } from "../services/wallet";
 import { formatWeiToNumber } from "../lib/format-number";
 import { AddCollateralService } from "../services/add-collateral";
-import type { Address } from "viem";
+import type { Address, Chain } from "viem";
 
 const addCollateralParamsSchema = z.object({
 	pairAddress: z
@@ -18,6 +18,10 @@ const addCollateralParamsSchema = z.object({
 		.describe(
 			"The amount of base currency (IQ) to spend for buying the agent token.",
 		),
+	chain: z
+		.string()
+		.optional()
+		.describe("The blockchain network to execute the transaction on."),
 });
 
 export const addCollateralTool = {
@@ -37,7 +41,11 @@ export const addCollateralTool = {
 		);
 
 		try {
-			const walletService = new WalletService(walletPrivateKey);
+			// const walletService = new WalletService(walletPrivateKey);
+			const walletService = new WalletService(
+				walletPrivateKey,
+				args.chain ? (args.chain as unknown as Chain) : undefined,
+			);
 			const addCollateralService = new AddCollateralService(walletService);
 
 			const result = await addCollateralService.execute({

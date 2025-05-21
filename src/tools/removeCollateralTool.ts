@@ -2,7 +2,7 @@ import { z } from "zod";
 import { WalletService } from "../services/wallet";
 import { formatWeiToNumber } from "../lib/format-number";
 import { RemoveCollateralService } from "../services/remove-collateral";
-import type { Address } from "viem";
+import type { Address, Chain } from "viem";
 
 const removeCollateralParamsSchema = z.object({
 	pairAddress: z
@@ -18,6 +18,10 @@ const removeCollateralParamsSchema = z.object({
 		.describe(
 			"The amount of base currency (IQ) to spend for buying the agent token.",
 		),
+	chain: z
+		.string()
+		.optional()
+		.describe("The blockchain network to execute the transaction on."),
 });
 
 export const removeCollateralTool = {
@@ -37,11 +41,11 @@ export const removeCollateralTool = {
 		);
 
 		try {
-			const walletService = new WalletService(walletPrivateKey);
-			// const walletService = new WalletService(
-			// 	walletPrivateKey,
-			// 	chain: chain as Chain,
-			// );
+			// const walletService = new WalletService(walletPrivateKey);
+			const walletService = new WalletService(
+				walletPrivateKey,
+				args.chain ? (args.chain as unknown as Chain) : undefined,
+			);
 			const removeCollateralService = new RemoveCollateralService(
 				walletService,
 			);
