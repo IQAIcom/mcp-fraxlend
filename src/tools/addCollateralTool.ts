@@ -41,7 +41,6 @@ export const addCollateralTool = {
 		);
 
 		try {
-			// const walletService = new WalletService(walletPrivateKey);
 			const walletService = new WalletService(
 				walletPrivateKey,
 				args.chain ? (args.chain as unknown as Chain) : undefined,
