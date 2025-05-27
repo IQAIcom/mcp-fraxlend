@@ -1,6 +1,6 @@
 {
 	"name": "@iqai/mcp-fraxlend",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Mcp server for Fraxlend access",
 	"main": "src/index.ts",
 	"type": "module",
