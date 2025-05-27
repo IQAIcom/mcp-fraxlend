@@ -1,6 +1,7 @@
 import type { Chain } from "viem";
 import { AgentPositionsService } from "../services/agent-positions.js";
 import { WalletService } from "../services/wallet.js";
+import { mainnet, fraxtal } from "viem/chains";
 
 export const agentPositionsTool = {
 	name: "FRAXLEND_GET_POSITIONS",
@@ -17,7 +18,7 @@ export const agentPositionsTool = {
 		log.debug("[FRAXLEND_GET_POSITIONS] Called to fetch agent positions");
 
 		try {
-			const walletService = new WalletService(walletPrivateKey);
+			const walletService = new WalletService(walletPrivateKey, fraxtal);
 			const agentPositionsService = new AgentPositionsService(walletService);
 			const positions = await agentPositionsService.getPositions();
 
