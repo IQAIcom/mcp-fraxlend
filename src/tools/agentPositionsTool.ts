@@ -2,7 +2,6 @@ import type { Chain } from "viem";
 import { AgentPositionsService } from "../services/agent-positions.js";
 import { WalletService } from "../services/wallet.js";
 
-
 export const agentPositionsTool = {
 	name: "FRAXLEND_GET_POSITIONS",
 	description: "Get your positions in FraxLend pools",
@@ -20,9 +19,7 @@ export const agentPositionsTool = {
 		log.debug("[FRAXLEND_GET_POSITIONS] Called to fetch agent positions");
 
 		try {
-			const walletService = new WalletService(
-				walletPrivateKey,
-			);
+			const walletService = new WalletService(walletPrivateKey);
 			const agentPositionsService = new AgentPositionsService(walletService);
 			const positions = await agentPositionsService.getPositions();
 
