@@ -5,10 +5,8 @@ import { WalletService } from "../services/wallet.js";
 export const agentPositionsTool = {
 	name: "FRAXLEND_GET_POSITIONS",
 	description: "Get your positions in FraxLend pools",
-	execute: async (
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-		{ log }: { log: any },
-	) => {
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	execute: async (args: unknown, { log }: { log: any }) => {
 		const walletPrivateKey = process.env.WALLET_PRIVATE_KEY;
 		if (!walletPrivateKey) {
 			throw new Error(
@@ -29,8 +27,7 @@ export const agentPositionsTool = {
 				error instanceof Error
 					? error.message
 					: "An unknown error occurred during the fetch.";
-			log.error(`❌  [FRAXLEND_GET_POSITIONS] Error: ${message}`);
-			throw new Error(`❌ Failed to Fetch Positions ${message}`);
+			throw new Error(`Failed to fetch agent positions: ${message}`);
 		}
 	},
 };
