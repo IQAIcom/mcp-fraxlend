@@ -10,28 +10,26 @@ const borrowParamsSchema = z.object({
 		.string()
 		.startsWith("0x", {
 			message:
-				"Token contract must be a valid Ethereum address starting with 0x.",
+				"Token contract must be a valid Fraxtal address starting with 0x.",
 		})
 		.describe("The contract address of the agent token to sell."),
 	receiver: z
 		.string()
 		.startsWith("0x", {
 			message:
-				"Receiver address must be a valid Ethereum address starting with 0x.",
+				"Receiver address must be a valid Fraxtal address starting with 0x.",
 		})
 		.describe("The address to receive the borrowed assets."),
 	collateralAmount: z
 		.string()
 		.regex(/^\d+(\.\d+)?$/, { message: "Amount must be a valid number." })
 		.describe(
-			"The amount of base currency (IQ) to spend for buying the agent token.",
+			"The amount for the collateral asset to deposit in the FraxLend pool.",
 		),
 	borrowAmount: z
 		.string()
 		.regex(/^\d+(\.\d+)?$/, { message: "Amount must be a valid number." })
-		.describe(
-			"The amount of base currency (IQ) to spend for buying the agent token.",
-		),
+		.describe("The amount for the asset to borrow from the FraxLend pool."),
 });
 
 export const borrowTool = {
