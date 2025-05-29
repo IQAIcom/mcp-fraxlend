@@ -12,7 +12,7 @@ const borrowParamsSchema = z.object({
 			message:
 				"Token contract must be a valid Fraxtal address starting with 0x.",
 		})
-		.describe("The contract address of the agent token to sell."),
+		.describe("The contract address of the asset to borrow."),
 	receiver: z
 		.string()
 		.startsWith("0x", {
