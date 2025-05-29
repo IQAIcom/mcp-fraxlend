@@ -1,8 +1,9 @@
-import type { Address, Chain } from "viem";
+import type { Address } from "viem";
 import { z } from "zod";
 import { formatWeiToNumber } from "../lib/format-number.js";
 import { RemoveCollateralService } from "../services/remove-collateral.js";
 import { WalletService } from "../services/wallet.js";
+import { fraxtal } from "viem/chains";
 
 const removeCollateralParamsSchema = z.object({
 	pairAddress: z
@@ -18,10 +19,6 @@ const removeCollateralParamsSchema = z.object({
 		.describe(
 			"The amount of base currency (IQ) to spend for buying the agent token.",
 		),
-	chain: z
-		.string()
-		.optional()
-		.describe("The blockchain network to execute the transaction on."),
 });
 
 export const removeCollateralTool = {
@@ -41,11 +38,7 @@ export const removeCollateralTool = {
 		);
 
 		try {
-			// const walletService = new WalletService(walletPrivateKey);
-			const walletService = new WalletService(
-				walletPrivateKey,
-				args.chain ? (args.chain as unknown as Chain) : undefined,
-			);
+			const walletService = new WalletService(walletPrivateKey, fraxtal);
 			const removeCollateralService = new RemoveCollateralService(
 				walletService,
 			);

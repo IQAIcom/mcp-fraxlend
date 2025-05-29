@@ -1,8 +1,9 @@
-import type { Address, Chain } from "viem";
+import type { Address } from "viem";
 import { z } from "zod";
 import { formatWeiToNumber } from "../lib/format-number.js";
 import { LendService } from "../services/lend.js";
 import { WalletService } from "../services/wallet.js";
+import { fraxtal } from "viem/chains";
 
 const lendParamsSchema = z.object({
 	pairAddress: z
@@ -18,10 +19,6 @@ const lendParamsSchema = z.object({
 		.describe(
 			"The amount of base currency (IQ) to spend for buying the agent token.",
 		),
-	chain: z
-		.string()
-		.optional()
-		.describe("The blockchain network to execute the transaction on."),
 });
 
 export const lendTool = {
@@ -41,11 +38,7 @@ export const lendTool = {
 		);
 
 		try {
-			// const walletService = new WalletService(walletPrivateKey);
-			const walletService = new WalletService(
-				walletPrivateKey,
-				args.chain ? (args.chain as unknown as Chain) : undefined,
-			);
+			const walletService = new WalletService(walletPrivateKey, fraxtal);
 			const lendService = new LendService(walletService);
 
 			const result = await lendService.execute({

@@ -1,8 +1,9 @@
-import type { Address, Chain } from "viem";
+import type { Address } from "viem";
 import { z } from "zod";
 import { formatWeiToNumber } from "../lib/format-number.js";
 import { WalletService } from "../services/wallet.js";
 import { WithdrawService } from "../services/withdraw.js";
+import { fraxtal } from "viem/chains";
 
 const withdrawParamsSchema = z.object({
 	pairAddress: z
@@ -18,10 +19,6 @@ const withdrawParamsSchema = z.object({
 		.describe(
 			"The amount of base currency (IQ) to spend for buying the agent token.",
 		),
-	chain: z
-		.string()
-		.optional()
-		.describe("The blockchain network to execute the transaction on."),
 });
 
 export const withdrawTool = {
@@ -41,11 +38,7 @@ export const withdrawTool = {
 		);
 
 		try {
-			// const walletService = new WalletService(walletPrivateKey);
-			const walletService = new WalletService(
-				walletPrivateKey,
-				args.chain ? (args.chain as unknown as Chain) : undefined,
-			);
+			const walletService = new WalletService(walletPrivateKey, fraxtal);
 			const withdrawService = new WithdrawService(walletService);
 
 			const result = await withdrawService.execute({
