@@ -1,9 +1,9 @@
 import type { Address } from "viem";
+import { fraxtal } from "viem/chains";
 import { z } from "zod";
 import { formatWeiToNumber } from "../lib/format-number.js";
 import { LendService } from "../services/lend.js";
 import { WalletService } from "../services/wallet.js";
-import { fraxtal } from "viem/chains";
 
 const lendParamsSchema = z.object({
 	pairAddress: z

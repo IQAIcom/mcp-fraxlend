@@ -1,9 +1,9 @@
 import type { Address } from "viem";
+import { fraxtal } from "viem/chains";
 import { z } from "zod";
 import { formatWeiToNumber } from "../lib/format-number.js";
 import { AddCollateralService } from "../services/add-collateral.js";
 import { WalletService } from "../services/wallet.js";
-import { fraxtal } from "viem/chains";
 
 const addCollateralParamsSchema = z.object({
 	pairAddress: z

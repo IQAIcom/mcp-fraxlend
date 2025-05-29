@@ -1,7 +1,7 @@
+import { fraxtal } from "viem/chains";
 import { z } from "zod";
 import { PairAddressService } from "../services/pair-address.js";
 import { WalletService } from "../services/wallet.js";
-import { fraxtal } from "viem/chains";
 
 const pairAddressParamsSchema = z.object({
 	assetSymbol: z.string().optional().describe("The symbol of the asset token."),

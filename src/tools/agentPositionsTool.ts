@@ -1,7 +1,7 @@
 import type { Chain } from "viem";
+import { fraxtal } from "viem/chains";
 import { AgentPositionsService } from "../services/agent-positions.js";
 import { WalletService } from "../services/wallet.js";
-import { mainnet, fraxtal } from "viem/chains";
 
 export const agentPositionsTool = {
 	name: "FRAXLEND_GET_POSITIONS",
