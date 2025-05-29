@@ -12,7 +12,7 @@ const lendParamsSchema = z.object({
 			message:
 				"Token contract must be a valid Fraxtal address starting with 0x.",
 		})
-		.describe("The contract address of the agent token to sell."),
+		.describe("The contract address of the asset to lend."),
 	amount: z
 		.string()
 		.regex(/^\d+(\.\d+)?$/, { message: "Amount must be a valid number." })
