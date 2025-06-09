@@ -123,6 +123,8 @@ export class AgentPositionsService {
 					- Borrowed: ${borrowedAmount} ${assetSymbol} (Value: $${borrowValue})
 					- Collateral: ${collateralAmount} ${collateralSymbol} (Value: $${collateralValue})
 					- Profit: $${profit}
+					- Asset symbol: ${assetSymbol}
+					- Collateral symbol: ${collateralSymbol}
 					- Asset address: ${assetAddress}
 					- Collateral address: ${collateralAddress}
 				`;
