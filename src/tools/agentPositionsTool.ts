@@ -1,7 +1,7 @@
 import { fraxtal } from "viem/chains";
+import { z } from "zod";
 import { AgentPositionsService } from "../services/agent-positions.js";
 import { WalletService } from "../services/wallet.js";
-import { z } from "zod";
 
 const agentPositionsParamsSchema = z.object({
 	address: z
