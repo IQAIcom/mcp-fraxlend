@@ -13,7 +13,13 @@ const LENDING_PAIRS_QUERY = graphql(`
       asset {
         symbol
         decimals
+				address
       }
+			collateral {
+				symbol
+				decimals
+				address
+			}
       dailyHistory(first: 1, orderBy: timestamp, orderDirection: desc) {
         interestPerSecond
         utilization
@@ -34,7 +40,8 @@ export class LendingStatsService {
 			return data.pairs.map((pair: any) => ({
 				address: pair.id,
 				symbol: pair.symbol,
-				assetSymbol: pair.asset.symbol,
+				asset: pair.asset,
+				collateral: pair.collateral,
 				apr: this.calculateApr(
 					pair.dailyHistory[0].interestPerSecond as string,
 				),
@@ -79,11 +86,15 @@ export class LendingStatsService {
 				);
 
 				return dedent`
-					🏦 ${pool.symbol} (${pool.assetSymbol})
+					🏦 ${pool.symbol}
 					├ 🔗 Address: ${pool.address}
 					├ 📈 APR: ${pool.apr}%
 					├ 📊 Utilization: ${formattedUtilization}%
-					└ 💰 Total Supply: ${formattedSupply} ${pool.assetSymbol}
+					└ 📊 Total Supply: ${formattedSupply}
+					└ 🏷️ Asset symbol: ${pool.asset.symbol}
+					└ 🏷️ Collateral symbol: ${pool.collateral.symbol}
+					└ 🔗 Asset address: ${pool.asset.address}
+					└ 🔗 Collateral address: ${pool.collateral.address}
 				`;
 			})
 			.join("\n\n");

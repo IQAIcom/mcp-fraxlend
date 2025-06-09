@@ -16,10 +16,12 @@ const AGENT_POSITIONS_QUERY = graphql(`
           symbol
           asset {
             symbol
+						address
             decimals
           }
           collateral {
             symbol
+						address
             decimals
           }
         }
@@ -42,12 +44,12 @@ export class AgentPositionsService {
 		this.walletService = walletService;
 	}
 
-	async getPositions() {
+	async getPositions(address: string | undefined) {
 		const walletClient = this.walletService.getWalletClient();
 		if (!walletClient) {
 			throw new Error("Wallet client not initialized");
 		}
-		const userAddress = walletClient.account?.address;
+		const userAddress = address || walletClient.account?.address;
 		if (!userAddress) {
 			throw new Error("User address not found");
 		}
@@ -58,6 +60,14 @@ export class AgentPositionsService {
 					id: userAddress.toLowerCase(),
 				},
 			});
+			if (
+				!data.users ||
+				data.users.length === 0 ||
+				!data.users[0].positions ||
+				data.users[0].positions.length === 0
+			) {
+				return [];
+			}
 			const positions = data.users[0].positions;
 
 			return (
@@ -66,6 +76,8 @@ export class AgentPositionsService {
 					symbol: position.pair.symbol,
 					assetSymbol: position.pair.asset.symbol,
 					collateralSymbol: position.pair.collateral.symbol,
+					assetAddress: position.pair.asset.address,
+					collateralAddress: position.pair.collateral.address,
 					lentAmount: position.lentAssetShare,
 					borrowedAmount: position.borrowedAssetShare,
 					collateralAmount: position.depositedCollateralAmount,
@@ -93,6 +105,10 @@ export class AgentPositionsService {
 		const formattedPositions = positions
 			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 			.map((pos: any) => {
+				const assetSymbol = pos.assetSymbol;
+				const collateralSymbol = pos.collateralSymbol;
+				const assetAddress = pos.assetAddress;
+				const collateralAddress = pos.collateralAddress;
 				const lentAmount = formatWeiToNumber(pos.lentAmount);
 				const lentValue = formatWeiToNumber(pos.value);
 				const borrowedAmount = formatWeiToNumber(pos.borrowedAmount);
@@ -103,10 +119,12 @@ export class AgentPositionsService {
 
 				return dedent`
 					🔹 ${pos.symbol}
-					- Lent: ${lentAmount} ${pos.assetSymbol} (Value: $${lentValue})
-					- Borrowed: ${borrowedAmount} ${pos.assetSymbol} (Value: $${borrowValue})
-					- Collateral: ${collateralAmount} ${pos.collateralSymbol} (Value: $${collateralValue})
+					- Lent: ${lentAmount} ${assetSymbol} (Value: $${lentValue})
+					- Borrowed: ${borrowedAmount} ${assetSymbol} (Value: $${borrowValue})
+					- Collateral: ${collateralAmount} ${collateralSymbol} (Value: $${collateralValue})
 					- Profit: $${profit}
+					- Asset address: ${assetAddress}
+					- Collateral address: ${collateralAddress}
 				`;
 			})
 			.join("\n\n");
