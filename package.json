@@ -1,13 +1,15 @@
 {
 	"name": "@iqai/mcp-fraxlend",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "Mcp server for Fraxlend access",
 	"main": "src/index.ts",
 	"type": "module",
 	"bin": {
 		"mcp-fraxlend": "dist/index.js"
 	},
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"build": "tsc && shx chmod +x dist/index.js",
 		"prepare": "husky",
@@ -35,7 +37,11 @@
 		"type": "git",
 		"url": "git+https://github.com/IQAIcom/mcp-fraxlend.git"
 	},
-	"keywords": ["mcp", "Fraxlend", "iqagents"],
+	"keywords": [
+		"mcp",
+		"Fraxlend",
+		"iqagents"
+	],
 	"author": "IQAI",
 	"license": "ISC",
 	"bugs": {
