@@ -1,26 +1,30 @@
-import type { Chain } from "viem";
 import { fraxtal } from "viem/chains";
+import { z } from "zod";
 import { AgentPositionsService } from "../services/agent-positions.js";
 import { WalletService } from "../services/wallet.js";
+
+const agentPositionsParamsSchema = z.object({
+	address: z
+		.string()
+		.optional()
+		.describe("The address of the user to get the positions for"),
+});
 
 export const agentPositionsTool = {
 	name: "FRAXLEND_GET_POSITIONS",
 	description: "Get your positions in FraxLend pools",
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	execute: async (args: unknown, { log }: { log: any }) => {
+	parameters: agentPositionsParamsSchema,
+	execute: async (args: z.infer<typeof agentPositionsParamsSchema>) => {
 		const walletPrivateKey = process.env.WALLET_PRIVATE_KEY;
-		if (!walletPrivateKey) {
+		if (!walletPrivateKey && !args.address) {
 			throw new Error(
-				"WALLET_PRIVATE_KEY is not set. Please set it in your environment variables.",
+				"WALLET_PRIVATE_KEY is not set. Please set it in your environment variables or provide an address.",
 			);
 		}
-
-		log.debug("[FRAXLEND_GET_POSITIONS] Called to fetch agent positions");
-
 		try {
 			const walletService = new WalletService(walletPrivateKey, fraxtal);
 			const agentPositionsService = new AgentPositionsService(walletService);
-			const positions = await agentPositionsService.getPositions();
+			const positions = await agentPositionsService.getPositions(args.address);
 
 			return agentPositionsService.formatPositions(positions);
 		} catch (error: unknown) {
