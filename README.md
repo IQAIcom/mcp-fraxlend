@@ -134,9 +134,7 @@ If you have installed `mcp-fraxlend` globally (`pnpm add -g @iqai/mcp-fraxlend`)
 
 ## Usage Examples
 
-```
-“Add log for agent 0x1234...5678: Just executed weekly yield distribution”
-“Create log entry for Frax God: Updated pricing model” (Works only if token contract found in previous messages)
-“Log for agent 0x1234...5678 with transaction hash 0xabc...def: Distribution complete”
-”What's the pair address for FRAX-ETH pool with the highest APR?”
-```
+- “Show my current FraxLend positions”
+- “I want to lend 100 FRAX to the FRAX-ETH pool at 0x123...abc”
+- ”Borrow 1000 FRAX using 2 ETH as collateral from the pool at 0x123...abc”
+- ”What's the pair address for FRAX-ETH pool with the highest APR?”
