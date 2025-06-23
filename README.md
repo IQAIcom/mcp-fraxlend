@@ -131,3 +131,11 @@ If you have installed `mcp-fraxlend` globally (`pnpm add -g @iqai/mcp-fraxlend`)
   - For global install: `[]`
 - **`env`**: An object containing environment variables to be set when the server process starts. This is where you provide `WALLET_PRIVATE_KEY`
 - **`workingDirectory`**: Generally not required when using the published package via `pnpm dlx` or a global install, as the package should handle its own paths correctly. If you were running from source (`node dist/index.js`), then setting `workingDirectory` to the project root would be important.
+
+## Usage Examples
+
+```
+“Add log for agent 0x1234...5678: Just executed weekly yield distribution”
+“Create log entry for Frax God: Updated pricing model” (Works only if token contract found in previous messages)
+“Log for agent 0x1234...5678 with transaction hash 0xabc...def: Distribution complete”
+```
