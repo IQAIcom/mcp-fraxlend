@@ -138,4 +138,5 @@ If you have installed `mcp-fraxlend` globally (`pnpm add -g @iqai/mcp-fraxlend`)
 “Add log for agent 0x1234...5678: Just executed weekly yield distribution”
 “Create log entry for Frax God: Updated pricing model” (Works only if token contract found in previous messages)
 “Log for agent 0x1234...5678 with transaction hash 0xabc...def: Distribution complete”
+”What's the pair address for FRAX-ETH pool with the highest APR?”
 ```
