@@ -1,9 +1,10 @@
 import dedent from "dedent";
 import { graphql } from "gql.tada";
-import { formatEther, formatUnits, createPublicClient, http } from "viem";
-import { client as gqlClient } from "../lib/graphql.js";
+import { http, createPublicClient, formatEther, formatUnits } from "viem";
 import { fraxtal } from "viem/chains";
+
 import { FRAXLEND_ABI } from "../lib/fraxlend.abi.js";
+import { client as gqlClient } from "../lib/graphql.js";
 
 const SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
 const DEFAULT_RESERVE_FACTOR_BPS = 800; // used only if on-chain read fails
