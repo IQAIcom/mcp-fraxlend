@@ -1,5 +1,11 @@
 # @iqai/mcp-fraxlend
 
+## 0.0.7
+
+### Patch Changes
+
+- 4a196e4: Update APR calculations, show separate Borrow APR & Lend APY
+
 ## 0.0.6
 
 ### Patch Changes
