@@ -62,11 +62,12 @@ export class LendingStatsService {
 		const addresses = pairs.map((p) => (p.address || p.id) as `0x${string}`);
 		const reserveByAddr = await this.fetchReserveFactors(addresses);
 
-		// 3) Compute metrics
-		return pairs.map((pair) => {
+		// 3) Compute metrics (skip pairs with no history)
+		return pairs.flatMap((pair) => {
 			const h = pair.dailyHistory?.[0];
-			const decimals = Number(pair.asset.decimals);
+			if (!h) return []; // guard: some pairs may have no history yet
 
+			const decimals = Number(pair.asset.decimals);
 			const totalAssets = Number(
 				formatUnits(BigInt(h.totalAssetAmount), decimals),
 			);
@@ -86,19 +87,21 @@ export class LendingStatsService {
 				reserveFactor,
 			);
 
-			return {
-				address: pair.id,
-				symbol: pair.symbol,
-				asset: pair.asset,
-				collateral: pair.collateral,
-				borrowAprPct, // Borrow APR (linear) %
-				lendApyPct, // Lend APY (compounded) %
-				utilizationPct: utilization * 100, // %
-				totalSupplyRaw: h.totalAssetAmount,
-				totalBorrowRaw: h.totalBorrowAmount,
-				decimals,
-				reserveFactorPct: reserveFactor * 100, // for debugging/visibility
-			};
+			return [
+				{
+					address: pair.id,
+					symbol: pair.symbol,
+					asset: pair.asset,
+					collateral: pair.collateral,
+					borrowAprPct, // Borrow APR (linear) %
+					lendApyPct, // Lend APY (compounded) %
+					utilizationPct: utilization * 100, // %
+					totalSupplyRaw: h.totalAssetAmount,
+					totalBorrowRaw: h.totalBorrowAmount,
+					decimals,
+					reserveFactorPct: reserveFactor * 100, // for debugging/visibility
+				},
+			];
 		});
 	}
 
@@ -106,31 +109,33 @@ export class LendingStatsService {
 		const out: Record<string, number> = {};
 		if (addresses.length === 0) return out;
 
-		// viem multicall; batches internally as needed
 		const calls = addresses.map((address) => ({
 			address,
 			abi: FRAXLEND_ABI,
 			functionName: "currentRateInfo" as const,
 		}));
 
-		const results = await publicClient.multicall({ contracts: calls });
+		const results = await publicClient.multicall({
+			contracts: calls,
+			allowFailure: true,
+		});
 
 		results.forEach((res, i) => {
 			const addr = addresses[i].toLowerCase();
+
 			if (res.status === "success") {
-				const [, feeToProtocolRate] = res.result as unknown as [
-					bigint,
-					bigint,
-					bigint,
-					bigint,
-					bigint,
-				];
-				// FEE_PRECISION = 1e5 → convert to fraction 0..1
-				out[addr] = Number(feeToProtocolRate) / 100_000;
-			} else {
-				// fallback if a call fails
-				out[addr] = DEFAULT_RESERVE_FACTOR_BPS / 10_000;
+				// currentRateInfo returns 5 outputs:
+				// [lastBlock, feeToProtocolRate, lastTimestamp, ratePerSec, fullUtilizationRate]
+				const tup = res.result as unknown;
+				if (Array.isArray(tup) && tup.length >= 2) {
+					const feeToProtocolRate = tup[1] as bigint;
+					out[addr] = Number(feeToProtocolRate) / 100_000; // FEE_PRECISION = 1e5
+					return;
+				}
 			}
+
+			// fallback if a call fails or result shape unexpected
+			out[addr] = DEFAULT_RESERVE_FACTOR_BPS / 10_000;
 		});
 
 		return out;
