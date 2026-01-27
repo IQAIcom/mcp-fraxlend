@@ -103,6 +103,72 @@ Add the following configuration to your MCP client settings (e.g., `claude_deskt
 
 <!-- AUTO-GENERATED TOOLS START -->
 
+### `FRAXLEND_ADD_COLLATERAL`
+Add collateral to a FraxLend position
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `pairAddress` | string | Yes | The contract address of the asset to add as collateral. |
+| `amount` | string | Yes | The amount for the asset to add as collateral in the FraxLend pool. |
+
+### `FRAXLEND_BORROW`
+Borrow assets from a FraxLend pool
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `pairAddress` | string | Yes | The contract address of the agent token to sell. |
+| `receiver` | string | Yes | The address to receive the borrowed assets. |
+| `collateralAmount` | string | Yes | The amount for the collateral asset to deposit in the FraxLend pool. |
+| `borrowAmount` | string | Yes | The amount for the asset to borrow from the FraxLend pool. |
+
+### `FRAXLEND_GET_PAIR_ADDRESS`
+Get FraxLend pair addresses and pool information
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `assetSymbol` | string |  | The symbol of the asset token. |
+| `collateralSymbol` | string |  | The symbol of the collateral token. |
+| `sortByApr` | string |  | Sort the results by APR, either highest or lowest. |
+
+### `FRAXLEND_GET_POSITIONS`
+Get your positions in FraxLend pools
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `address` | string |  | The address of the user to get the positions for |
+
+### `FRAXLEND_LEND`
+Lend assets to a FraxLend pool
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `pairAddress` | string | Yes | The contract address of the asset to lend. |
+| `amount` | string | Yes | The amount for the asset to lend in the FraxLend pool. |
+
+### `FRAXLEND_REMOVE_COLLATERAL`
+Remove collateral from a FraxLend position
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `pairAddress` | string | Yes | The contract address of the asset to remove as collateral. |
+| `amount` | string | Yes | The amount for the asset to remove collateral from the FraxLend pool. |
+
+### `FRAXLEND_REPAY`
+Repay borrowed assets to a FraxLend pool
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `pairAddress` | string | Yes | The contract address of the asset to repay. |
+| `amount` | string | Yes | The amount for the asset to repay in the FraxLend pool. |
+
+### `FRAXLEND_WITHDRAW`
+Withdraw assets from a FraxLend pool
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `pairAddress` | string | Yes | The contract address of the asset to withdraw. |
+| `amount` | string | Yes | The amount for the asset to withdraw from the FraxLend pool. |
+
 <!-- AUTO-GENERATED TOOLS END -->
 
 ## Development
