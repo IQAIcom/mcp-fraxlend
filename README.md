@@ -1,133 +1,144 @@
-# MCP-Fraxlend: Model Context Protocol Server for Fraxlend
+# Fraxlend MCP Server
 
-This project implements a Model Context Protocol (MCP) server to interact with the Fraxlend platform. It allows MCP-compatible clients (like AI assistants, IDE extensions, or custom applications) to access Fraxlend functionalities such as viewing lending statistics, lending, borrowing, adding/removing collateral, repaying and withdrawing.
+[![npm version](https://img.shields.io/npm/v/@iqai/mcp-fraxlend.svg)](https://www.npmjs.com/package/@iqai/mcp-fraxlend)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-This server is built using TypeScript and `fastmcp`.
+## Overview
 
-## Features (MCP Tools)
+The Fraxlend MCP Server enables AI agents to interact with [Fraxlend](https://frax.finance), a DeFi lending protocol on Fraxtal. This server provides comprehensive access to lending pools, allowing agents to view statistics, lend assets, borrow, manage collateral, repay loans, and withdraw funds.
 
-The server exposes the following tools that MCP clients can utilize:
+By implementing the Model Context Protocol (MCP), this server allows Large Language Models (LLMs) to interact with Fraxlend pools, manage positions, and execute DeFi operations directly through their context window.
 
-- **`LENDING_STATS`**: Fetch statistics for a specific Fraxlend pair.
-  - Parameters: `pairAddress` (string)
-- **`LEND`**: Lend assets to a specific Fraxlend pair.
-  - Parameters: `pairAddress` (string), `amount` (string)
-  - Requires `WALLET_PRIVATE_KEY` in the environment.
-- **`BORROW`**: Borrow assets from a specific Fraxlend pair.
-  - Parameters: `pairAddress` (string), `amount` (string)
-  - Requires `WALLET_PRIVATE_KEY` in the environment.
-- **`ADD_COLLATERAL`**: Add collateral to a specific Fraxlend pair.
-  - Parameters: `pairAddress` (string), `amount` (string)
-  - Requires `WALLET_PRIVATE_KEY` in the environment.
-- **`REMOVE_COLLATERAL`**: Remove collateral from a specific Fraxlend pair.
-  - Parameters: `pairAddress` (string), `amount` (string)
-  - Requires `WALLET_PRIVATE_KEY` in the environment.
-- **`REPAY`**: Repay borrowed assets to a specific Fraxlend pair.
-  - Parameters: `pairAddress` (string), `amount` (string)
-  - Requires `WALLET_PRIVATE_KEY` in the environment.
-- **`WITHDRAW`**: Withdraw lent assets from a specific Fraxlend pair.
-  - Parameters: `pairAddress` (string), `amount` (string)
-  - Requires `WALLET_PRIVATE_KEY` in the environment.
-- **`PAIR_ADDRESS`**: Get the pair address for a specific Fraxlend pair.
-  - Parameters: `collateralToken` (string), `borrowedToken` (string)
+## Features
 
-## Prerequisites
-
-- Node.js (v18 or newer recommended)
-- pnpm (See <https://pnpm.io/installation>)
+*   **Pool Discovery**: Search and filter FraxLend pools by asset and collateral tokens.
+*   **Lending Operations**: Lend assets to earn yield from borrowers.
+*   **Borrowing**: Borrow assets against collateral from FraxLend pools.
+*   **Collateral Management**: Add or remove collateral from lending positions.
+*   **Position Tracking**: Monitor your lending and borrowing positions across pools.
+*   **Loan Repayment**: Repay borrowed assets to reduce debt.
 
 ## Installation
 
-There are a few ways to use `mcp-fraxlend`:
+### Using npx (Recommended)
 
-**1. Using `pnpm dlx` (Recommended for most MCP client setups):**
-
-You can run the server directly using `pnpm dlx` without needing a global installation. This is often the easiest way to integrate with MCP clients. See the "Running the Server with an MCP Client" section for examples.
-(`pnpm dlx` is pnpm's equivalent of `npx`)
-
-**2. Global Installation from npm (via pnpm):**
-
-Install the package globally to make the `mcp-fraxlend` command available system-wide:
+To use this server without installing it globally:
 
 ```bash
-pnpm add -g @iqai/mcp-fraxlend
+npx @iqai/mcp-fraxlend
 ```
 
-**3. Building from Source (for development or custom modifications):**
-
-1.  **Clone the repository:**
+### Build from Source
 
 ```bash
 git clone https://github.com/IQAIcom/mcp-fraxlend.git
 cd mcp-fraxlend
-```
-
-2.  **Install dependencies:**
-
-```bash
 pnpm install
+pnpm run build
 ```
 
-3.  **Build the server:**
-    This compiles the TypeScript code to JavaScript in the `dist` directory.
+## Running with an MCP Client
 
+Add the following configuration to your MCP client settings (e.g., `claude_desktop_config.json`).
+
+### Minimal Configuration
+
+```json
+{
+  "mcpServers": {
+    "fraxlend": {
+      "command": "npx",
+      "args": ["-y", "@iqai/mcp-fraxlend"],
+      "env": {
+        "WALLET_PRIVATE_KEY": "your_wallet_private_key_here"
+      }
+    }
+  }
+}
+```
+
+### Advanced Configuration (Local Build)
+
+```json
+{
+  "mcpServers": {
+    "fraxlend": {
+      "command": "node",
+      "args": ["/absolute/path/to/mcp-fraxlend/dist/index.js"],
+      "env": {
+        "WALLET_PRIVATE_KEY": "your_wallet_private_key_here"
+      }
+    }
+  }
+}
+```
+
+## Configuration (Environment Variables)
+
+| Variable | Required | Description | Default |
+| :--- | :--- | :--- | :--- |
+| `WALLET_PRIVATE_KEY` | Yes | Your wallet private key for signing transactions | - |
+
+**Security Note:** Handle your private key with extreme care. Ensure it is stored securely and only provided to trusted MCP client configurations.
+
+## Usage Examples
+
+### Pool Discovery
+*   "What FraxLend pools are available for FRAX?"
+*   "Find pools where I can use ETH as collateral."
+*   "Show me the highest APR lending pools."
+
+### Lending & Borrowing
+*   "Lend 1000 FRAX to the FRAX/sfrxETH pool."
+*   "Borrow 500 FRAX using my sfrxETH as collateral."
+*   "What are my current positions in FraxLend?"
+
+### Position Management
+*   "Add more collateral to my borrowing position."
+*   "Remove excess collateral from my position."
+*   "Repay my loan in the FRAX pool."
+*   "Withdraw my lent assets from the pool."
+
+## MCP Tools
+
+<!-- AUTO-GENERATED TOOLS START -->
+
+<!-- AUTO-GENERATED TOOLS END -->
+
+## Development
+
+### Build Project
 ```bash
 pnpm run build
 ```
 
-The `prepare` script also runs `pnpm run build`, so dependencies are built upon installation if you clone and run `pnpm install`.
-
-## Configuration (Environment Variables)
-
-This MCP server requires certain environment variables to be set by the MCP client that runs it. These are typically configured in the client's MCP server definition (e.g., in a `mcp.json` file for Cursor, or similar for other clients).
-
-- **`WALLET_PRIVATE_KEY`**: (Required for `LEND`, `BORROW`, `ADD_COLLATERAL`, `REMOVE_COLLATERAL`, `REPAY`, `WITHDRAW`)
-  - The private key of the wallet to be used for interacting with the Fraxlend platform (e.g., signing transactions for lending, borrowing, etc.).
-  - **Security Note:** Handle this private key with extreme care. Ensure it is stored securely and only provided to trusted MCP client configurations.
-
-## Running the Server with an MCP Client
-
-MCP clients (like AI assistants, IDE extensions, etc.) will run this server as a background process. You need to configure the client to tell it how to start your server.
-
-Below is an example configuration snippet that an MCP client might use (e.g., in a `mcp_servers.json` or similar configuration file). This example shows how to run the server using the published npm package via `pnpm dlx`.
-
-```json
-{
-  "mcpServers": {
-    "iq-fraxlend-mcp-server": {
-      "command": "pnpm",
-      "args": ["dlx", "@iqai/mcp-fraxlend"],
-      "env": {
-        "WALLET_PRIVATE_KEY": "your_wallet_private_key_here"
-      }
-    }
-  }
-}
+### Development Mode (Watch)
+```bash
+pnpm run watch
 ```
 
-**Alternative if Globally Installed:**
-
-If you have installed `mcp-fraxlend` globally (`pnpm add -g @iqai/mcp-fraxlend`), you can simplify the `command` and `args`:
-
-```json
-{
-  "mcpServers": {
-    "iq-fraxlend-mcp-server": {
-      "command": "mcp-fraxlend",
-      "args": [],
-      "env": {
-        "WALLET_PRIVATE_KEY": "your_wallet_private_key_here"
-      }
-    }
-  }
-}
+### Linting & Formatting
+```bash
+pnpm run lint
+pnpm run format
 ```
 
-- **`command`**: The executable to run.
-  - For `pnpm dlx`: `"pnpm"` (with `"dlx"` as the first arg)
-  - For global install: `"mcp-fraxlend"`
-- **`args`**: An array of arguments to pass to the command.
-  - For `pnpm dlx`: `["dlx", "@iqai/mcp-fraxlend"]`
-  - For global install: `[]`
-- **`env`**: An object containing environment variables to be set when the server process starts. This is where you provide `WALLET_PRIVATE_KEY`
-- **`workingDirectory`**: Generally not required when using the published package via `pnpm dlx` or a global install, as the package should handle its own paths correctly. If you were running from source (`node dist/index.js`), then setting `workingDirectory` to the project root would be important.
+### Project Structure
+*   `src/tools/`: Individual tool definitions
+*   `src/services/`: Business logic and blockchain interactions
+*   `src/lib/`: Shared utilities
+*   `src/index.ts`: Server entry point
+
+## Resources
+
+*   [Fraxlend Documentation](https://docs.frax.finance/fraxlend/fraxlend-overview)
+*   [Model Context Protocol (MCP)](https://modelcontextprotocol.io)
+*   [Frax Finance](https://frax.finance)
+
+## Disclaimer
+
+This project is an unofficial tool and is not directly affiliated with Frax Finance. It interacts with DeFi protocols and blockchain transactions. Users should exercise caution, verify all data independently, and understand the risks involved in lending, borrowing, and managing collateral in DeFi protocols.
+
+## License
+
+[MIT](LICENSE)
