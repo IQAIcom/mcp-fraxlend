@@ -56,7 +56,7 @@
 		"@biomejs/biome": "*",
 		"@types/node": "^22.15.19",
 		"dedent": "^1.6.0",
-		"fastmcp": "^1.27.7",
+		"fastmcp": "^3.32.0",
 		"gql.tada": "^1.8.10",
 		"graphql-request": "^7.1.2",
 		"viem": "^2.29.2",

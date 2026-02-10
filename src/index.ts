@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { FastMCP } from "fastmcp";
 import { addCollateralTool } from "./tools/addCollateralTool.js";
 import { agentPositionsTool } from "./tools/agentPositionsTool.js";
