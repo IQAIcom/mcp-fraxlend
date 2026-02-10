@@ -1,10 +1,10 @@
 import {
-	type Chain,
-	createPublicClient,
-	createWalletClient,
 	http,
+	type Chain,
 	type PublicClient,
 	type WalletClient,
+	createPublicClient,
+	createWalletClient,
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { fraxtal } from "viem/chains";

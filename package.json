@@ -7,9 +7,7 @@
 	"bin": {
 		"mcp-fraxlend": "dist/index.js"
 	},
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"scripts": {
 		"build": "tsc && shx chmod +x dist/index.js",
 		"prepare": "husky",
@@ -37,11 +35,7 @@
 		"type": "git",
 		"url": "git+https://github.com/IQAIcom/mcp-fraxlend.git"
 	},
-	"keywords": [
-		"mcp",
-		"Fraxlend",
-		"iqagents"
-	],
+	"keywords": ["mcp", "Fraxlend", "iqagents"],
 	"author": "IQAI",
 	"license": "ISC",
 	"bugs": {
@@ -49,7 +43,7 @@
 	},
 	"homepage": "https://github.com/IQAIcom/mcp-fraxlend#readme",
 	"devDependencies": {
-		"@biomejs/biome": "*",
+		"@biomejs/biome": "1.9.4",
 		"@changesets/cli": "^2.29.4",
 		"@types/node": "^22.15.19",
 		"husky": "^9.1.7",
@@ -59,7 +53,7 @@
 		"zod-to-json-schema": "^3.25.1"
 	},
 	"dependencies": {
-		"@biomejs/biome": "*",
+		"@biomejs/biome": "1.9.4",
 		"@types/node": "^22.15.19",
 		"dedent": "^1.6.0",
 		"fastmcp": "^3.32.0",

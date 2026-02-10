@@ -1,6 +1,6 @@
 import dedent from "dedent";
 import { graphql } from "gql.tada";
-import { createPublicClient, formatEther, formatUnits, http } from "viem";
+import { http, createPublicClient, formatEther, formatUnits } from "viem";
 import { fraxtal } from "viem/chains";
 
 import { FRAXLEND_ABI } from "../lib/fraxlend.abi.js";
