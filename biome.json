@@ -1,7 +1,9 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.3.14/schema.json",
-	"files": {
-		"includes": ["**", "!**/node_modules", "!**/dist"]
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
 	},
 	"linter": {
 		"enabled": true,
@@ -12,5 +14,9 @@
 	"formatter": {
 		"enabled": true
 	},
-	"assist": { "actions": { "source": { "organizeImports": "on" } } }
+	"javascript": {
+		"formatter": {
+			"enabled": true
+		}
+	}
 }
