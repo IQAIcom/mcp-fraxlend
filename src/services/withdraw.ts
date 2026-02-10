@@ -1,4 +1,4 @@
-import { type Address, erc20Abi } from "viem";
+import type { Address } from "viem";
 import { FRAXLEND_ABI } from "../lib/fraxlend.abi.js";
 import type { WalletService } from "./wallet.js";
 
@@ -12,7 +12,10 @@ export class WithdrawService {
 	async execute({
 		pairAddress,
 		amount,
-	}: { pairAddress: Address; amount: bigint }) {
+	}: {
+		pairAddress: Address;
+		amount: bigint;
+	}) {
 		const publicClient = this.walletService.getPublicClient();
 		const walletClient = this.walletService.getWalletClient();
 

@@ -54,7 +54,7 @@ export class AgentPositionsService {
 			throw new Error("User address not found");
 		}
 		try {
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			// biome-ignore lint/suspicious/noExplicitAny: GraphQL response has dynamic structure
 			const data: any = await client.request(AGENT_POSITIONS_QUERY, {
 				user: {
 					id: userAddress.toLowerCase(),
@@ -71,7 +71,7 @@ export class AgentPositionsService {
 			const positions = data.users[0].positions;
 
 			return (
-				// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+				// biome-ignore lint/suspicious/noExplicitAny: GraphQL data requires runtime mapping
 				positions.map((position: any) => ({
 					symbol: position.pair.symbol,
 					assetSymbol: position.pair.asset.symbol,
@@ -103,7 +103,7 @@ export class AgentPositionsService {
 		}
 
 		const formattedPositions = positions
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			// biome-ignore lint/suspicious/noExplicitAny: GraphQL data requires runtime mapping
 			.map((pos: any) => {
 				const assetSymbol = pos.assetSymbol;
 				const collateralSymbol = pos.collateralSymbol;

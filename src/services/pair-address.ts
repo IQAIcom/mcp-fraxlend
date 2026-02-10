@@ -48,7 +48,7 @@ export class PairAddressService {
 		sortByApr?: "highest" | "lowest";
 	}) {
 		try {
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			// biome-ignore lint/suspicious/noExplicitAny: GraphQL data has dynamic structure
 			const where: Record<string, any> = {};
 
 			if (params.assetSymbol) {
@@ -61,10 +61,10 @@ export class PairAddressService {
 				};
 			}
 
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			// biome-ignore lint/suspicious/noExplicitAny: GraphQL data has dynamic structure
 			const data: any = await client.request(PAIR_ADDRESS_QUERY, { where });
 
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			// biome-ignore lint/suspicious/noExplicitAny: GraphQL data has dynamic structure
 			const pairs: any = data.pairs.map((pair: any) => ({
 				address: pair.id,
 				symbol: pair.symbol,
@@ -85,7 +85,7 @@ export class PairAddressService {
 			}));
 
 			if (params.sortByApr) {
-				// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+				// biome-ignore lint/suspicious/noExplicitAny: GraphQL data has dynamic structure
 				pairs.sort((a: any, b: any) =>
 					params.sortByApr === "highest" ? b.apr - a.apr : a.apr - b.apr,
 				);
@@ -114,7 +114,7 @@ export class PairAddressService {
 		}
 
 		const formattedPairs = pairs
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			// biome-ignore lint/suspicious/noExplicitAny: GraphQL data has dynamic structure
 			.map((pair: any) => {
 				return dedent`
           🔸 ${pair.symbol}

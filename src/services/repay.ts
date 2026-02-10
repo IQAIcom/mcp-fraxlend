@@ -12,7 +12,10 @@ export class RepayService {
 	async execute({
 		pairAddress,
 		amount,
-	}: { pairAddress: Address; amount: bigint }) {
+	}: {
+		pairAddress: Address;
+		amount: bigint;
+	}) {
 		const publicClient = this.walletService.getPublicClient();
 		const walletClient = this.walletService.getWalletClient();
 
