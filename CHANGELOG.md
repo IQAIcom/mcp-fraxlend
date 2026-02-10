@@ -1,5 +1,11 @@
 # @iqai/mcp-fraxlend
 
+## 0.0.8
+
+### Patch Changes
+
+- 4861ed5: add shebang and upgrade fastmcp to v3.32.0 for improved features and bug fixes
+
 ## 0.0.7
 
 ### Patch Changes
